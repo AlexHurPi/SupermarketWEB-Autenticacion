@@ -22,7 +22,6 @@ namespace SupermarketWEB.Pages.Categories
             {
                 Categories = await _context.Categories.ToListAsync();
             }
-
         }
     }
 }
