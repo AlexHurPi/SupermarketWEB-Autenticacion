@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\PayMode\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
