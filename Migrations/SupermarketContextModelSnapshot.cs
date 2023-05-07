@@ -59,7 +59,7 @@ namespace SupermarketWEB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayMode");
+                    b.ToTable("PayModes");
                 });
 
             modelBuilder.Entity("SupermarketWEB.Models.Product", b =>
