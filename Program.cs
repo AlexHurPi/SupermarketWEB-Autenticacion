@@ -17,7 +17,6 @@ namespace SupermarketWEB
             options.UseSqlServer(builder.Configuration.GetConnectionString("SupermarketDB"))
             );
             
-            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
