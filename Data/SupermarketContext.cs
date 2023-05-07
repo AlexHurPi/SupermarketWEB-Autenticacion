@@ -12,6 +12,7 @@ namespace SupermarketWEB.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 		public DbSet<Provider> Provider { get; set; }
+		public DbSet<PayMode> PayMode { get; set; }
 
 	}
 }

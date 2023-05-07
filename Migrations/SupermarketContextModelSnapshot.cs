@@ -41,6 +41,27 @@ namespace SupermarketWEB.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SupermarketWEB.Models.PayMode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PayMode");
+                });
+
             modelBuilder.Entity("SupermarketWEB.Models.Product", b =>
                 {
                     b.Property<int>("Id")

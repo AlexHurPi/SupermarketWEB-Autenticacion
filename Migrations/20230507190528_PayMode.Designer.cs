@@ -11,8 +11,8 @@ using SupermarketWEB.Data;
 namespace SupermarketWEB.Migrations
 {
     [DbContext(typeof(SupermarketContext))]
-    [Migration("20230507174045_SegundaMigracion")]
-    partial class SegundaMigracion
+    [Migration("20230507190528_PayMode")]
+    partial class PayMode
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,27 @@ namespace SupermarketWEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("SupermarketWEB.Models.PayMode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PayMode");
                 });
 
             modelBuilder.Entity("SupermarketWEB.Models.Product", b =>
