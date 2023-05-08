@@ -15,7 +15,7 @@ namespace SupermarketWEB.Pages.Sales
 			_context = context;
 		}
 
-		public IList<Sell> Sales { get; set; } = default!;
+		public IList<Sell?> Sales { get; set; } = default!;
 
 		public async Task OnGetAsync()
 		{

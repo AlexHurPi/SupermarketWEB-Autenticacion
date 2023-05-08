@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
 
@@ -19,6 +20,7 @@ namespace SupermarketWEB.Pages.Sales
 		public List<SelectListItem> Customer { get; set; }
 		public List<SelectListItem> Product2 { get; set; }
 		public List<SelectListItem> Product3 { get; set; }
+		//public List<Product> Product3 { get; set; }
 		public List<SelectListItem> PayMode { get; set; }
 		public void OnGet()
 		{
@@ -42,7 +44,15 @@ namespace SupermarketWEB.Pages.Sales
 				{
 					Value = c.Id.ToString(),
 					Text = c.Price.ToString()
+
 				}).ToList();
+
+			/*foreach (var item in _context.Products)
+			{
+				Product3= item.Price;
+				
+			}*/
+
 
 			PayMode = _context.PayModes
 				.Select(c => new SelectListItem
@@ -59,31 +69,34 @@ namespace SupermarketWEB.Pages.Sales
 		public PayMode PayMode2 { get; set; }
 		public async Task<IActionResult> OnPostAsync()
 		{
-			if (!ModelState.IsValid)
+			/*if (!ModelState.IsValid)
 			{
 				// Si hay errores de validación, establece la lista desplegable de categorías y vuelve a la página
 				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Id");
 				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
 				ViewData["PayModes"] = new SelectList(await _context.Categories.ToListAsync(), "Name");
 				return Page();
-			}
+			}*/
 
 			// Comprueba que se han rellenado todos los campos necesarios
-			if (string.IsNullOrEmpty(Sell.Date) || string.IsNullOrEmpty(Sell.CustomerId) || string.IsNullOrEmpty(Sell.ProductName) || Sell.Quantity <= 0 || Sell.ProductPrice<=0 ||
-				Sell.TotalSale<=0 || string.IsNullOrEmpty(Sell.PayModeName))
+			/*if (string.IsNullOrEmpty(Sell.Date) || string.IsNullOrEmpty(Sell.CustomerId) || string.IsNullOrEmpty(Sell.ProductName) || Sell.Quantity <= 0 || string.IsNullOrEmpty(Sell.ProductPrice) ||
+				Sell.TotalSale<=0 || string.IsNullOrEmpty(Sell.PayModeName) || string.IsNullOrEmpty(Sell.Observation))
 			{
 				ModelState.AddModelError("", "Please fill in all required fields.");
 				//ViewData["Categories"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Id", "Name");
+				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
+				ViewData["PayMode"] = new SelectList(await _context.PayModes.ToListAsync(), "Name");
 				return Page();
-			}
+			}*/
 
 			// Recupera la categoría seleccionada
-			var customer = await _context.Customers.FirstOrDefaultAsync(c=> c.Name ==Sell.CustomerId );
+			/*var customer = await _context.Customers.FirstOrDefaultAsync(c=> c.Name ==Sell.CustomerId );
 			var productName= await _context.Products.FirstOrDefaultAsync(c=> c.Name==Sell.ProductName);
-			var productPrice= await _context.Products.FirstOrDefaultAsync(c => c.Price==Sell.ProductPrice);	
+			var productPrice= await _context.Products.FirstOrDefaultAsync(c => c.Price.ToString()==Sell.ProductPrice);	
 			var payModeName = await _context.PayModes.FirstOrDefaultAsync(c => c.Name == Sell.PayModeName);
-			
-			if (customer == null || productName==null || productPrice.Price <=0 || payModeName==null )
+			*/
+			/*if (customer == null || productName==null || productPrice.Price <=0 || payModeName==null )
 			{
 				// Si la categoría no existe, establece la lista desplegable de categorías y muestra un mensaje de error
 				ModelState.AddModelError("", "Invalid Customer selected.");
@@ -91,7 +104,7 @@ namespace SupermarketWEB.Pages.Sales
 				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
 				ViewData["PayMode"] = new SelectList(await _context.PayModes.ToListAsync(), "Name");
 				return Page();
-			}
+			}*/
 
 			// Añade el nuevo producto a la base de datos y guarda los cambios
 			_context.Sales.Add(Sell);
