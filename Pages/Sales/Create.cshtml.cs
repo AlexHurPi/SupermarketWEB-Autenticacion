@@ -45,9 +45,7 @@ namespace SupermarketWEB.Pages.Sales
 					Value = c.Id.ToString(),
 					Text = c.Price.ToString()
 
-				}).ToList();
-
-			
+				}).ToList();			
 		
 
 			PayMode = _context.PayModes
@@ -58,8 +56,10 @@ namespace SupermarketWEB.Pages.Sales
 				}).ToList();
 		}
 
+		
 		[BindProperty]
 		public Sell Sell { get; set; }
+		
 		//public Customer Customer2 { get; set; }
 		//public Product Product { get; set; }
 		//public PayMode PayMode2 { get; set; }
