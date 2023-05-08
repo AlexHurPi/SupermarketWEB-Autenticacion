@@ -55,7 +55,6 @@ namespace SupermarketWEB.Pages.Sales
 					Text = c.Name
 				}).ToList();
 		}
-
 		
 		[BindProperty]
 		public Sell Sell { get; set; }
@@ -85,14 +84,14 @@ namespace SupermarketWEB.Pages.Sales
 				ViewData["PayMode"] = new SelectList(await _context.PayModes.ToListAsync(), "Name");
 				return Page();
 			}*/
-
+			
 			// Recupera la categoría seleccionada
-			/*var customer = await _context.Customers.FirstOrDefaultAsync(c=> c.Name ==Sell.CustomerId );
+			var customer = await _context.Customers.FirstOrDefaultAsync(c=> c.Name ==Sell.CustomerId );
 			var productName= await _context.Products.FirstOrDefaultAsync(c=> c.Name==Sell.ProductName);
 			var productPrice= await _context.Products.FirstOrDefaultAsync(c => c.Price.ToString()==Sell.ProductPrice);	
 			var payModeName = await _context.PayModes.FirstOrDefaultAsync(c => c.Name == Sell.PayModeName);
-			*/
-			/*if (customer == null || productName==null || productPrice.Price <=0 || payModeName==null )
+			/*
+			if (customer == null || productName==null || productPrice.Price <=0 || payModeName==null )
 			{
 				// Si la categoría no existe, establece la lista desplegable de categorías y muestra un mensaje de error
 				ModelState.AddModelError("", "Invalid Customer selected.");
