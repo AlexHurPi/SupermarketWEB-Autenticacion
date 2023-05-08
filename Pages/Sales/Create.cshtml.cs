@@ -69,7 +69,7 @@ namespace SupermarketWEB.Pages.Sales
 			{
 				// Si hay errores de validación, establece la lista desplegable de categorías y vuelve a la página
 				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Name");
-				//ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
+				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
 				ViewData["PayModes"] = new SelectList(await _context.Categories.ToListAsync(), "Name");
 				return Page();
 			}
