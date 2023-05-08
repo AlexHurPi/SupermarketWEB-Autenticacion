@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace SupermarketWEB.Pages.Products
 {
-    public class CreateModel : PageModel
-    {
+	public class CreateModel : PageModel
+	{
 		private readonly SupermarketContext _context;
 
 		public CreateModel(SupermarketContext context)
@@ -70,5 +70,7 @@ namespace SupermarketWEB.Pages.Products
 			ViewData["Categories"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
 			return RedirectToPage("./Index");
 		}
+
 	}
 }
+

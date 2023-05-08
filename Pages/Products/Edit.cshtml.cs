@@ -1,74 +1,107 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SupermarketWEB.Pages.Products
 {
-    public class EditModel : PageModel
-    {
-		
-			private readonly SupermarketContext _context;
+	public class EditModel : PageModel
+	{
+		private readonly SupermarketContext _context;
 
-			public EditModel(SupermarketContext context)
+		public EditModel(SupermarketContext context)
+		{
+			_context = context;
+		}
+
+		public List<SelectListItem> Categories { get; set; }
+
+		[BindProperty]
+		public Product Product { get; set; }
+
+		public async Task<IActionResult> OnGetAsync(int? id)
+		{
+			if (id == null)
 			{
-				_context = context;
+				return NotFound();
 			}
 
-			[BindProperty]
+			Product = await _context.Products.FindAsync(id);
 
-			public Product Product { get; set; } = default!;
-
-			public async Task<IActionResult> OnGetAsync(int? id)
+			if (Product == null)
 			{
-				if (id == null || _context.Products == null)
-				{
-					return NotFound();
-				}
+				return NotFound();
+			}
 
-				var product = await _context.Products.FirstOrDefaultAsync(m => m.Id == id);
-
-				if (product == null)
+			Categories = await _context.Categories.Select(c =>
+				new SelectListItem
 				{
-					return NotFound();
-				}
-				Product = product;
+					Value = c.Id.ToString(),
+					Text = c.Name,
+					Selected = (c.Id == Product.CategoryId)
+				}).ToListAsync();
+
+			return Page();
+		}
+
+		public async Task<IActionResult> OnPostAsync()
+		{
+			if (!ModelState.IsValid)
+			{
+				Categories = await _context.Categories.Select(c =>
+					new SelectListItem
+					{
+						Value = c.Id.ToString(),
+						Text = c.Name,
+						Selected = (c.Id == Product.CategoryId)
+					}).ToListAsync();
 				return Page();
 			}
 
-			public async Task<IActionResult> OnPostAsync()
+			var category = await _context.Categories.FindAsync(Product.CategoryId);
+
+			if (category == null)
 			{
-				if (!ModelState.IsValid)
-				{
-					return Page();
-				}
-
-				_context.Attach(Product).State = EntityState.Modified;
-
-				try
-				{
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ProductExists(Product.Id))
+				ModelState.AddModelError("", "Invalid category selected.");
+				Categories = await _context.Categories.Select(c =>
+					new SelectListItem
 					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-
-				return RedirectToPage("./Index");
+						Value = c.Id.ToString(),
+						Text = c.Name,
+						Selected = (c.Id == Product.CategoryId)
+					}).ToListAsync();
+				return Page();
 			}
 
-			private bool ProductExists(int id)
+			_context.Attach(Product).State = EntityState.Modified;
+
+			try
 			{
-				return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+				await _context.SaveChangesAsync();
 			}
-			
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!ProductExists(Product.Id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+
+			return RedirectToPage("./Index");
+		}
+
+		private bool ProductExists(int id)
+		{
+			return _context.Products.Any(p => p.Id == id);
+		}
 	}
 }
