@@ -19,12 +19,12 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="Sell.CustomerId" class="control-label"></label>
-				<select asp-for="Customer2.Id" class="form-control" asp-items="@(Model.Customer)"></select>
+				<select asp-for="Sell.CustomerId" class="form-control" asp-items="@(Model.Customer)"></select>
 				<span asp-validation-for="Sell.CustomerId" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label asp-for="Sell.ProductName" class="control-label"></label>
-				<select asp-for="Product.Name" class="form-control" asp-items="@(Model.Product2)"></select>
+				<select asp-for="Sell.ProductName" class="form-control" asp-items="@(Model.Product2)"></select>
 				<span asp-validation-for="Sell.ProductName" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -34,7 +34,7 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="Sell.ProductPrice" class="control-label"></label>
-				<select asp-for="Product.Price" class="form-control" asp-items="@(Model.Product3)"></select>
+				<select asp-for="Sell.ProductPrice" class="form-control" asp-items="@Model.Product3"></select>
 				<span asp-validation-for="Sell.ProductPrice" class="text-danger"></span>
 			</div>
 			<div class="form-group">
@@ -44,7 +44,7 @@
 			</div>
 			<div class="form-group">
 				<label asp-for="Sell.PayModeName" class="control-label"></label>
-				<select asp-for="PayMode2.Name" class="form-control" asp-items="@(Model.PayMode)"></select>
+				<select asp-for="Sell.PayModeName" class="form-control" asp-items="@(Model.PayMode)"></select>
 				<span asp-validation-for="Sell.PayModeName" class="text-danger"></span>
 			</div>
 			<div class="form-group">

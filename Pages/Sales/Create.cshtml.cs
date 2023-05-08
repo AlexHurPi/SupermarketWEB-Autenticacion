@@ -31,13 +31,13 @@ namespace SupermarketWEB.Pages.Sales
 					Text = c.Name
 				}).ToList();
 
-				Product2 = _context.Products
-				.Select(c => new SelectListItem
-				{
-					Value = c.Id.ToString(),
-					Text = c.Name
-					
-				}).ToList();
+			Product2 = _context.Products
+			.Select(c => new SelectListItem
+			{
+				Value = c.Id.ToString(),
+				Text = c.Name
+
+			}).ToList();
 
 			Product3 = _context.Products
 				.Select(c => new SelectListItem
@@ -47,12 +47,8 @@ namespace SupermarketWEB.Pages.Sales
 
 				}).ToList();
 
-			/*foreach (var item in _context.Products)
-			{
-				Product3= item.Price;
-				
-			}*/
-
+			
+		
 
 			PayMode = _context.PayModes
 				.Select(c => new SelectListItem
@@ -64,19 +60,19 @@ namespace SupermarketWEB.Pages.Sales
 
 		[BindProperty]
 		public Sell Sell { get; set; }
-		public Customer Customer2 { get; set; }
-		public Product Product { get; set; }
-		public PayMode PayMode2 { get; set; }
+		//public Customer Customer2 { get; set; }
+		//public Product Product { get; set; }
+		//public PayMode PayMode2 { get; set; }
 		public async Task<IActionResult> OnPostAsync()
 		{
-			/*if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				// Si hay errores de validación, establece la lista desplegable de categorías y vuelve a la página
-				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Id");
-				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
+				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Name");
+				//ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
 				ViewData["PayModes"] = new SelectList(await _context.Categories.ToListAsync(), "Name");
 				return Page();
-			}*/
+			}
 
 			// Comprueba que se han rellenado todos los campos necesarios
 			/*if (string.IsNullOrEmpty(Sell.Date) || string.IsNullOrEmpty(Sell.CustomerId) || string.IsNullOrEmpty(Sell.ProductName) || Sell.Quantity <= 0 || string.IsNullOrEmpty(Sell.ProductPrice) ||
@@ -108,6 +104,7 @@ namespace SupermarketWEB.Pages.Sales
 
 			// Añade el nuevo producto a la base de datos y guarda los cambios
 			_context.Sales.Add(Sell);
+			
 			await _context.SaveChangesAsync();
 
 			// Establece la lista desplegable de categorías y vuelve a la página Index
