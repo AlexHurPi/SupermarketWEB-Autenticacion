@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SupermarketWEB.Data;
 using SupermarketWEB.Models;
+using System.Globalization;
 
 namespace SupermarketWEB.Pages.Sales
 {
-    public class CreateModel : PageModel
-    {
+	public class CreateModel : PageModel
+	{
 		private readonly SupermarketContext _context;
 
 		public CreateModel(SupermarketContext context)
@@ -24,41 +25,44 @@ namespace SupermarketWEB.Pages.Sales
 		public List<SelectListItem> PayMode { get; set; }
 		public void OnGet()
 		{
+			Sell = new Sell();
+
 			Customer = _context.Customers
-				.Select(c => new SelectListItem
-				{
-					Value = c.Id.ToString(),
-					Text = c.Name
-				}).ToList();
+	.Where(c => !string.IsNullOrEmpty(c.Name))
+	.Select(c => new SelectListItem
+	{
+		Value = c.Name, // Asignar el nombre en lugar del ID
+		Text = c.Name
+	})
+	.ToList();
 
 			Product2 = _context.Products
-			.Select(c => new SelectListItem
+			.Where(p => !string.IsNullOrEmpty(p.Name))
+			.Select(p => new SelectListItem
 			{
-				Value = c.Id.ToString(),
-				Text = c.Name
+				Value = p.Name, // Asignar el nombre en lugar del ID
+				Text = $"{p.Name} - {p.Price}" // Mostrar el nombre y el precio del producto
+			})
+			.ToList();
 
-			}).ToList();
-
-			Product3 = _context.Products
-				.Select(c => new SelectListItem
-				{
-					Value = c.Id.ToString(),
-					Text = c.Price.ToString()
-
-				}).ToList();			
-		
 
 			PayMode = _context.PayModes
-				.Select(c => new SelectListItem
+				.Where(pm => !string.IsNullOrEmpty(pm.Name))
+				.Select(pm => new SelectListItem
 				{
-					Value = c.Id.ToString(),
-					Text = c.Name
-				}).ToList();
+					Value = pm.Name, // Asignar el nombre en lugar del ID
+					Text = pm.Name
+				})
+				.ToList();
+
+
+			Sell.Date = DateTime.Now.ToString("dd/MM/yyyy hh:mm tt");
+
 		}
-		
+
 		[BindProperty]
 		public Sell Sell { get; set; }
-		
+
 		//public Customer Customer2 { get; set; }
 		//public Product Product { get; set; }
 		//public PayMode PayMode2 { get; set; }
@@ -73,42 +77,41 @@ namespace SupermarketWEB.Pages.Sales
 				return Page();
 			}
 
-			// Comprueba que se han rellenado todos los campos necesarios
-			/*if (string.IsNullOrEmpty(Sell.Date) || string.IsNullOrEmpty(Sell.CustomerId) || string.IsNullOrEmpty(Sell.ProductName) || Sell.Quantity <= 0 || string.IsNullOrEmpty(Sell.ProductPrice) ||
-				Sell.TotalSale<=0 || string.IsNullOrEmpty(Sell.PayModeName) || string.IsNullOrEmpty(Sell.Observation))
-			{
-				ModelState.AddModelError("", "Please fill in all required fields.");
-				//ViewData["Categories"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
-				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Id", "Name");
-				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
-				ViewData["PayMode"] = new SelectList(await _context.PayModes.ToListAsync(), "Name");
-				return Page();
-			}*/
-			
 			// Recupera la categoría seleccionada
-			var customer = await _context.Customers.FirstOrDefaultAsync(c=> c.Name ==Sell.CustomerId );
-			var productName= await _context.Products.FirstOrDefaultAsync(c=> c.Name==Sell.ProductName);
-			var productPrice= await _context.Products.FirstOrDefaultAsync(c => c.Price.ToString()==Sell.ProductPrice);	
-			var payModeName = await _context.PayModes.FirstOrDefaultAsync(c => c.Name == Sell.PayModeName);
-			/*
-			if (customer == null || productName==null || productPrice.Price <=0 || payModeName==null )
+			var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Name == Sell.CustomerId);
+			var product = await _context.Products.FirstOrDefaultAsync(p => p.Name == Sell.ProductName);
+			var payModeName = await _context.PayModes.FirstOrDefaultAsync(pm => pm.Name == Sell.PayModeName);
+
+			if (customer == null || product == null || payModeName == null)
 			{
-				// Si la categoría no existe, establece la lista desplegable de categorías y muestra un mensaje de error
-				ModelState.AddModelError("", "Invalid Customer selected.");
+				// Si algún valor seleccionado no existe, establece las listas desplegables y muestra un mensaje de error
+				ModelState.AddModelError("", "Invalid Customer, Product, or PayMode selected.");
 				ViewData["Customers"] = new SelectList(await _context.Customers.ToListAsync(), "Id", "Name");
 				ViewData["Products"] = new SelectList(await _context.Products.ToListAsync(), "Name", "Price");
 				ViewData["PayMode"] = new SelectList(await _context.PayModes.ToListAsync(), "Name");
 				return Page();
-			}*/
+			}
 
-			// Añade el nuevo producto a la base de datos y guarda los cambios
+			// Asigna el precio del producto seleccionado a ProductPrice
+			Sell.ProductPrice = product.Price;
+
+			// Calcula el total de la venta
+			Sell.TotalSale = Sell.ProductPrice * Sell.Quantity;
+
+			// Añade la nueva venta a la base de datos y guarda los cambios
 			_context.Sales.Add(Sell);
-			
 			await _context.SaveChangesAsync();
 
-			// Establece la lista desplegable de categorías y vuelve a la página Index
-			/*ViewData["Categories"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
-			*/return RedirectToPage("./Index");
+			// Establece las listas desplegables y vuelve a la página Index
+			return RedirectToPage("./Index");
 		}
+
+
 	}
 }
+
+
+
+
+
+
