@@ -1,0 +1,57 @@
+﻿@page
+@model SupermarketWEB.Pages.Purchases.DeleteModel
+@{
+	ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+	<h4>Purchase</h4>
+	<hr />
+	<dl class="row">
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.ProviderName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.ProviderName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.ProductName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.ProductName)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.ProductPrice)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.ProductPrice)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.Quantity)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.Quantity)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.TotalPurchase)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.TotalPurchase)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Purchase.Observation)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Purchase.Observation)
+		</dt>
+	</dl>
+
+	<form method="post">
+		<input type="hidden" asp-for="Purchase.Id" />
+		<input type="submit" value="Delete" class="btn btn-danger" />
+		<a asp-page="./Index" class="btn btn-primary"> Back to List</a>
+	</form>
+</div>
