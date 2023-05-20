@@ -16,5 +16,7 @@ namespace SupermarketWEB.Data
 		public DbSet<Customer> Customers { get; set; }
 		public DbSet<Sell> Sales { get; set; }
 		public DbSet<Purchase> Purchases { get; set; }
-	}
+        public DbSet<User> Users { get; set;
+
+        }
 }
