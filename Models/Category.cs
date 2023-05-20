@@ -2,7 +2,7 @@
 
 namespace SupermarketWEB.Models
 {
-    [Authorize]
+   
     public class Category
     {
         public int Id { get; set; } //sera la llave primaria
