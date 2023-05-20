@@ -16,7 +16,13 @@ namespace SupermarketWEB
             builder.Services.AddDbContext<SupermarketContext>(options=>
             options.UseSqlServer(builder.Configuration.GetConnectionString("SupermarketDB"))
             );
-            
+
+            builder.Services.AddAuthentication().AddCookie("MyCookieAuth", options =>
+            {
+                options.Cookie.Name = "MyCookieAuth";
+                options.LoginPath = "/Account/Login"; //SI no esta autenticado, cargue la pagina login
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
