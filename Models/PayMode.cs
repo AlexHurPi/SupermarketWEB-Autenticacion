@@ -2,7 +2,7 @@
 
 namespace SupermarketWEB.Models
 {
-    [Authorize]
+    
     public class PayMode
 	{
        
