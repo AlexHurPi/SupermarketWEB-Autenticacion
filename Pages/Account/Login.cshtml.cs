@@ -25,13 +25,8 @@ namespace SupermarketWEB.Pages.Account
         }
         public async Task<IActionResult> OnPostAsync()
         {
-            List<User> Users = new List<User>();
             if (!ModelState.IsValid) return Page();
             
-            /* foreach (var item in _context.Users)
-             {
-                 Console.WriteLine(item.Email); Console.WriteLine(item.Password);
-             }*/
             foreach (var user in _context.Users) 
             {
                 var email= user.Email;
