@@ -17,7 +17,8 @@ namespace SupermarketWEB.Pages.Account
         {
             _context = context;
         }
-
+        [TempData]
+        public string ErrorMessage { get; set; }
         [BindProperty] 
         public User User { get; set; }
         public void OnGet()
@@ -47,7 +48,8 @@ namespace SupermarketWEB.Pages.Account
                     await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal);
                     return RedirectToPage("/index");
                 }
-            }           
+            }
+            ErrorMessage = "Correo o contraseña incorrectos.";
             return Page();
         }
     }
